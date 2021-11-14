@@ -1,0 +1,6 @@
+INSERT INTO users( Name, Email, PhoneNumber) VALUES ('Ivy Kamonya','ivykamonya@gmail.com','0701989898')
+
+
+INSERT INTO events(EventName, Location, Date, EventTime, TotalCapacity, VIPCapacity, RegularCapacity, VIPTicketCost, RegularTicketCost, CreatedBy) VALUES ('Churchill Show Kitengela','Kitengela','2021-01-01','20:20','500','100','400','400','400','1')
+
+INSERT INTO tickets(Type, EventId, UserId, AmountPaid) VALUES ('VIP','1','1','400')
