@@ -2,9 +2,9 @@
 
 	require('func/config.php');
 
-	// if(!$user->is_logged_in()){
-	// 	header('Location: signin.php');
-  // }
+	if(!$user->is_logged_in()){
+		header('Location: signin.php');
+  }
 
  ?>
 <!DOCTYPE html>
@@ -89,6 +89,10 @@
                     <input type="text" placeholder="Event Name" id ="EventName" />
                   </div>
                   <div class="input-style-1">
+                    <label>Event Description</label>
+                    <textarea placeholder="Event Description" rows="5" id = "EventDescription"> </textarea> 
+                  </div>
+                  <div class="input-style-1">
                     <label>Location</label>
                     <input type="text" placeholder="Location" id ="Location" />
                   </div>
@@ -102,11 +106,7 @@
                     <label>Event Time</label>
                     <input type="time" id ="EventTime"/>
                   </div>
-                  <!-- end input -->
-                  <div class="input-style-1">
-                    <label>Total Capacity</label>
-                    <input type="text" placeholder="Total Capacity" id ="TotalCapacity"/>
-                  </div>
+                 
                   <!-- end input -->
                   <div class="input-style-1">
                     <label>VIP Capacity</label>
@@ -115,6 +115,11 @@
                   <div class="input-style-1">
                     <label>Regular Capacity</label>
                     <input type="text" placeholder="Regular Capacity" id ="RegularCapacity" />
+                  </div>
+                   <!-- end input -->
+                   <div class="input-style-1">
+                    <label>Total Capacity</label>
+                    <input type="text" placeholder="Total Capacity" id ="TotalCapacity"/>
                   </div>
                   <!-- end input -->
                   <div class="input-style-1">
@@ -167,9 +172,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script src="assets/js/jbvalidator.min.js"></script>  
+    <script src="assets/js/jquery.alphanum.js"></script>   
         <script>
             $(function (){
+              $('#TotalCapacity').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+              $('#VIPCapacity').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+              $('#RegularCapacity').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+              $('#RegularTicketCost').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 2
+              });
+              $('#VIPTicketCost').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 2
+              });
 
+              $("#VIPCapacity").keyup(function () {
+                if ($("#VIPCapacity").val().length == 0) {
+                    $("#TotalCapacity").val('0');
+                    return;
+                }
+                else {
+                    if ($("#RegularCapacity").val().length == 0) {
+                        return;
+                    } else {
+                        var one = parseFloat($("#RegularCapacity").val(), 10);
+                        var two = parseFloat($("#VIPCapacity").val(), 10);
+                        
+                        $("#TotalCapacity").val(one + two );
+                        
+                    }
+                }
+            });
+            //
+
+            $("#RegularCapacity").keyup(function () {
+                if ($("#RegularCapacity").val().length == 0) {
+                    $("#TotalCapacity").val('0');
+                    return;
+                }
+                else {
+                    if ($("#VIPCapacity").val().length == 0) {
+                        return;
+                    } else {
+                        var one = parseFloat($("#RegularCapacity").val(), 10);
+                        var two = parseFloat($("#VIPCapacity").val(), 10);
+                        
+                        $("#TotalCapacity").val(one + two );
+                    }
+                }
+            });
+            //
               //when save button is clicked
               $("#SaveEvent").click(function (e) {
                   e.preventDefault();
@@ -178,6 +240,7 @@
                   $.post('saveevent.php',
                   {
                     EventName: $("#EventName").val(),
+                    EventDescription: $("#EventDescription").val(),
                     Location: $("#Location").val(),
                     Date: $("#Date").val(),
                     EventTime: $("#EventTime").val(),

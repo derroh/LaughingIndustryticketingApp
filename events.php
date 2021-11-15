@@ -2,9 +2,9 @@
 
 	require('func/config.php');
 
-	// if(!$user->is_logged_in()){
-	// 	header('Location: signin.php');
-  // }
+	if(!$user->is_logged_in()){
+		header('Location: signin.php');
+  }
   $events_query = "select * from events";
   $events_list = $event->fetch_events($events_query);
 

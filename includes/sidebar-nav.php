@@ -9,7 +9,7 @@
       
 <nav class="sidebar-nav">
         <ul>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a href="index.php">
               <span class="icon">
                 <svg
@@ -58,7 +58,7 @@
           </li>
          
           
-          <li class="nav-item active">
+          <li class="nav-item">
             <a href="users.php">
               <span class="icon">
                 <svg

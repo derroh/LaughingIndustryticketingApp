@@ -2,9 +2,9 @@
 
 	require('func/config.php');
 
-	// if(!$user->is_logged_in()){
-	// 	header('Location: signin.php');
-  // }
+	if(!$user->is_logged_in()){
+		header('Location: signin.php');
+  }
 
   if(isset($_GET['id']))
   {
@@ -123,11 +123,7 @@
                       <label>Event Time</label>
                       <input type="time" id ="EventTime" value = "<?php echo (string)$EventTime['EventTime'];?>"/>
                     </div>
-                    <!-- end input -->
-                    <div class="input-style-1">
-                      <label>Total Capacity</label>
-                      <input type="text" placeholder="Total Capacity" id ="TotalCapacity" value = "<?php echo $item['TotalCapacity'];?>"/>
-                    </div>
+                  
                     <!-- end input -->
                     <div class="input-style-1">
                       <label>VIP Capacity</label>
@@ -137,6 +133,11 @@
                       <label>Regular Capacity</label>
                       <input type="text" placeholder="Regular Capacity" id ="RegularCapacity" value = "<?php echo $item['RegularCapacity'];?>" />
                     </div>
+                     <!-- end input -->
+                  <div class="input-style-1">
+                    <label>Total Capacity</label>
+                    <input type="text" placeholder="Total Capacity" id ="TotalCapacity"/>
+                  </div>
                     <!-- end input -->
                     <div class="input-style-1">
                       <label>VIP Ticket Cost</label>
@@ -192,9 +193,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="assets/js/jquery.alphanum.js"></script>  
     <script src="assets/js/jbvalidator.min.js"></script>  
         <script>
             $(function (){
+              $('#TotalCapacity').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+              $('#VIPCapacity').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+              $('#RegularCapacity').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+              $('#RegularTicketCost').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 2
+              });
+              $('#VIPTicketCost').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 2
+              });
 
               //when save button is clicked
               $("#SaveEvent").click(function (e) {

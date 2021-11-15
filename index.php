@@ -5,7 +5,7 @@
 	if(!$user->is_logged_in()){
 		header('Location: signin.php');
   }
-
+  $events_list = $event->fetch_top_events();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,11 +80,11 @@
                 </div>
                 <div class="content">
                   <h6 class="mb-10">Total events</h6>
-                  <h3 class="text-bold mb-10">34567</h3>
-                  <p class="text-sm text-success">
+                  <h3 class="text-bold mb-10"><?php echo $event->countEvents() ?></h3>
+                  <!-- <p class="text-sm text-success">
                     <i class="lni lni-arrow-up"></i> +2.00%
                     <span class="text-gray">(30 days)</span>
-                  </p>
+                  </p> -->
                 </div>
               </div>
               <!-- End Icon Cart -->
@@ -97,11 +97,11 @@
                 </div>
                 <div class="content">
                   <h6 class="mb-10">Total Income</h6>
-                  <h3 class="text-bold mb-10">Ksh74,567</h3>
-                  <p class="text-sm text-success">
+                  <h3 class="text-bold mb-10">Ksh <?php echo $ticket->sumTicketsSoldAmount()?></h3>
+                  <!-- <p class="text-sm text-success">
                     <i class="lni lni-arrow-up"></i> +5.45%
                     <span class="text-gray">Increased</span>
-                  </p>
+                  </p> -->
                 </div>
               </div>
               <!-- End Icon Cart -->
@@ -113,12 +113,12 @@
                   <i class="lni lni-credit-cards"></i>
                 </div>
                 <div class="content">
-                  <h6 class="mb-10">Total Expense</h6>
-                  <h3 class="text-bold mb-10">$24,567</h3>
-                  <p class="text-sm text-danger">
+                  <h6 class="mb-10">Total Tickets Sold</h6>
+                  <h3 class="text-bold mb-10"><?php echo $ticket->countTicketsSold()?></h3>
+                  <!-- <p class="text-sm text-danger">
                     <i class="lni lni-arrow-down"></i> -2.00%
                     <span class="text-gray">Expense</span>
-                  </p>
+                  </p> -->
                 </div>
               </div>
               <!-- End Icon Cart -->
@@ -130,12 +130,12 @@
                   <i class="lni lni-user"></i>
                 </div>
                 <div class="content">
-                  <h6 class="mb-10">Total Tickets Sold</h6>
-                  <h3 class="text-bold mb-10">34567</h3>
-                  <p class="text-sm text-danger">
+                  <h6 class="mb-10">Total users</h6>
+                  <h3 class="text-bold mb-10"><?php echo $user->countUsers()?></h3>
+                  <!-- <p class="text-sm text-danger">
                     <i class="lni lni-arrow-down"></i> -25.00%
                     <span class="text-gray"> Earning</span>
-                  </p>
+                  </p> -->
                 </div>
               </div>
               <!-- End Icon Cart -->
@@ -160,7 +160,7 @@
                   <div class="left">
                     <h6 class="text-medium mb-30">Top Selling Events</h6>
                   </div>
-                  <div class="right">
+                  <!-- <div class="right">
                     <div class="select-style-1">
                       <div class="select-position select-sm">
                         <select class="light-bg">
@@ -170,8 +170,7 @@
                         </select>
                       </div>
                     </div>
-                    <!-- end select -->
-                  </div>
+                  </div> -->
                 </div>
                 <!-- End Title -->
                 <div class="table-responsive">
@@ -180,24 +179,33 @@
                       <tr>
                         <th></th>
                         <th>
-                          <h6 class="text-sm text-medium">Products</h6>
+                          <h6 class="text-sm text-medium">Event</h6>
+                        </th>
+                        <th>
+                          <h6 class="text-sm text-medium">Date</h6>
                         </th>
                         <th class="min-width">
-                          <h6 class="text-sm text-medium">Category</h6>
+                          <h6 class="text-sm text-medium">Location</h6>
                         </th>
                         <th class="min-width">
-                          <h6 class="text-sm text-medium">Price</h6>
+                          <h6 class="text-sm text-medium">Tickets Sold</h6>
                         </th>
                         <th class="min-width">
-                          <h6 class="text-sm text-medium">Sold</h6>
+                          <h6 class="text-sm text-medium">Amount Collected</h6>
                         </th>
-                        <th class="min-width">
-                          <h6 class="text-sm text-medium">Profit</h6>
-                        </th>
-                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
+                    <?php if ( empty($events_list) ): ?>
+                        <div class="col-xs-12">
+                            <div class="alert alert-warning">
+                              <span class="glyphicon glyphicon-info-sign"></span> &nbsp; No items found...
+                            </div>
+                        </div>
+
+                    <?php else: ?>
+
+                    <?php foreach ($events_list as $item) :?>
                       <tr>
                         <td>
                           <div class="check-input-primary">
@@ -210,222 +218,26 @@
                         </td>
                         <td>
                           <div class="product">
-                            <div class="image">
-                              <img
-                                src="assets/images/products/product-mini-1.jpg"
-                                alt=""
-                              />
-                            </div>
-                            <p class="text-sm">Arm Chair</p>
+                            
+                            <p class="text-sm"><?php echo $item['EventName'];?></p>
                           </div>
                         </td>
                         <td>
-                          <p class="text-sm">Interior</p>
+                          <p class="text-sm"><?php echo $item['EventDate'];?></p>
                         </td>
                         <td>
-                          <p class="text-sm">$345</p>
+                          <p class="text-sm"><?php echo $item['EventLocation'];?></p>
                         </td>
                         <td>
-                          <p class="text-sm">43</p>
+                          <p class="text-sm"><?php echo $item['TicketsSold'];?></p>
                         </td>
                         <td>
-                          <p class="text-sm">$45</p>
-                        </td>
-                        <td>
-                          <div class="action justify-content-end">
-                            <button
-                              class="more-btn ml-10 dropdown-toggle"
-                              id="moreAction1"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <i class="lni lni-more-alt"></i>
-                            </button>
-                            <ul
-                              class="dropdown-menu dropdown-menu-end"
-                              aria-labelledby="moreAction1"
-                            >
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Remove</a>
-                              </li>
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Edit</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="check-input-primary">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="checkbox-1"
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="product">
-                            <div class="image">
-                              <img
-                                src="assets/images/products/product-mini-2.jpg"
-                                alt=""
-                              />
-                            </div>
-                            <p class="text-sm">SOfa</p>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm">Interior</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">$145</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">13</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">$15</p>
-                        </td>
-                        <td>
-                          <div class="action justify-content-end">
-                            <button
-                              class="more-btn ml-10 dropdown-toggle"
-                              id="moreAction1"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <i class="lni lni-more-alt"></i>
-                            </button>
-                            <ul
-                              class="dropdown-menu dropdown-menu-end"
-                              aria-labelledby="moreAction1"
-                            >
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Remove</a>
-                              </li>
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Edit</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="check-input-primary">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="checkbox-1"
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="product">
-                            <div class="image">
-                              <img
-                                src="assets/images/products/product-mini-3.jpg"
-                                alt=""
-                              />
-                            </div>
-                            <p class="text-sm">Dining Table</p>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm">Interior</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">$95</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">32</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">$215</p>
-                        </td>
-                        <td>
-                          <div class="action justify-content-end">
-                            <button
-                              class="more-btn ml-10 dropdown-toggle"
-                              id="moreAction1"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <i class="lni lni-more-alt"></i>
-                            </button>
-                            <ul
-                              class="dropdown-menu dropdown-menu-end"
-                              aria-labelledby="moreAction1"
-                            >
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Remove</a>
-                              </li>
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Edit</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="check-input-primary">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="checkbox-1"
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="product">
-                            <div class="image">
-                              <img
-                                src="assets/images/products/product-mini-4.jpg"
-                                alt=""
-                              />
-                            </div>
-                            <p class="text-sm">Office Chair</p>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm">Interior</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">$105</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">23</p>
-                        </td>
-                        <td>
-                          <p class="text-sm">$345</p>
-                        </td>
-                        <td>
-                          <div class="action justify-content-end">
-                            <button
-                              class="more-btn ml-10 dropdown-toggle"
-                              id="moreAction1"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <i class="lni lni-more-alt"></i>
-                            </button>
-                            <ul
-                              class="dropdown-menu dropdown-menu-end"
-                              aria-labelledby="moreAction1"
-                            >
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Remove</a>
-                              </li>
-                              <li class="dropdown-item">
-                                <a href="#0" class="text-gray">Edit</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
+                          <p class="text-sm"><?php echo $item['AmountCollected'];?></p>
+                        </td>                        
+                      </tr>  
+                      <?php endforeach; ?>
+
+                      <?php endif;?>                     
                     </tbody>
                   </table>
                   <!-- End Table -->

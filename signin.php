@@ -19,7 +19,7 @@
       href="assets/images/favicon.svg"
       type="image/x-icon"
     />
-    <title>Sign In | PlainAdmin Demo</title>
+    <title>Sign In | Laugh Industry</title>
 
     <!-- ========== All CSS files linkup ========= -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -94,19 +94,57 @@
                     Start creating the best possible user experience for you
                     customers.
                   </p>
-                  <form action="#">
+                  <?php
+                  
+                 
+												//process login form if submitted
+					            	if(isset($_POST['submit'])){
+
+					            		$user_email = trim($_POST['user_email']);
+					            		$password = trim($_POST['password']);
+
+					            		if($user->login($user_email,$password))
+					                {
+					                  //check if account is activated
+					                  $stmt = $db->prepare('SELECT * FROM users WHERE Email = :user_email');
+					                  $stmt->execute(array(
+					                		':user_email' => $user_email
+					                	));
+					                  while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+					    		          {
+					                   
+															$_SESSION["username"] = $row['Name'];														
+															$_SESSION["Id"] = $row['Id'];
+					                  }
+                            
+					                  header('Location: index.php');
+														exit;
+
+					            		} else {
+					            			$message = '
+					                  <div class="alert alert-danger">
+					                      Wrong username or password.
+					                  </div>
+					                  ';
+					            		}
+
+					            	}//end of submit
+
+					            	if(isset($message)){ echo $message; }
+				            	?>
+                  <form action="" method="post">
                     <div class="row">
                       <div class="col-12">
                         <div class="input-style-1">
                           <label>Email</label>
-                          <input type="email" placeholder="Email" />
+                          <input type="email" placeholder="Email" name="user_email" value="<?php if(isset($_COOKIE["member_login"])) { echo $_COOKIE["member_login"]; } else if(isset($message)) { echo $_POST['user_email'];}?>" />
                         </div>
                       </div>
                       <!-- end col -->
                       <div class="col-12">
                         <div class="input-style-1">
                           <label>Password</label>
-                          <input type="password" placeholder="Password" />
+                          <input type="password" placeholder="Password" name="password" value="<?php if(isset($_COOKIE["member_password"])) { echo $_COOKIE["member_password"]; }else if(isset($message)) { echo $_POST['password'];} ?>" />
                         </div>
                       </div>
                       <!-- end col -->
@@ -155,6 +193,7 @@
                               w-100
                               text-center
                             "
+                            name="submit"
                           >
                             Sign In
                           </button>

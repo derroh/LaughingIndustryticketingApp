@@ -33,7 +33,7 @@
                   >
                     <div class="profile-info">
                       <div class="info">
-                        <h6>John Doe</h6>
+                        <h6><?php echo $_SESSION["username"]; ?></h6>
                         <div class="image">
                           <img
                             src="assets/images/profile/profile-image.png"
