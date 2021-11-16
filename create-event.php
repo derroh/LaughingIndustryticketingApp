@@ -84,58 +84,58 @@
                 <div class="card-style mb-30">
                   <h6 class="mb-25">Input Fields</h6>
                   <form id = "eventform">
-                  <div class="input-style-1">
-                    <label>Event Name</label>
-                    <input type="text" placeholder="Event Name" id ="EventName" />
-                  </div>
-                  <div class="input-style-1">
-                    <label>Event Description</label>
-                    <textarea placeholder="Event Description" rows="5" id = "EventDescription"> </textarea> 
-                  </div>
-                  <div class="input-style-1">
-                    <label>Location</label>
-                    <input type="text" placeholder="Location" id ="Location" />
-                  </div>
+                      <div class="input-style-1">
+                        <label>Event Name</label>
+                        <input type="text" placeholder="Event Name" id ="EventName" />
+                      </div>
+                      <div class="input-style-1">
+                        <label>Event Description</label>
+                        <textarea placeholder="Event Description" rows="5" id = "EventDescription"> </textarea> 
+                      </div>
+                      <div class="input-style-1">
+                        <label>Location</label>
+                        <input type="text" placeholder="Location" id ="Location" />
+                      </div>
 
-                  <div class="input-style-1">
-                    <label>Date</label>
-                    <input type="date" id ="Date"/>
-                  </div>
-                  <!-- end input -->
-                  <div class="input-style-2">
-                    <label>Event Time</label>
-                    <input type="time" id ="EventTime"/>
-                  </div>
-                 
-                  <!-- end input -->
-                  <div class="input-style-1">
-                    <label>VIP Capacity</label>
-                    <input type="text" placeholder="VIP Capacity" id ="VIPCapacity" />
-                  </div>
-                  <div class="input-style-1">
-                    <label>Regular Capacity</label>
-                    <input type="text" placeholder="Regular Capacity" id ="RegularCapacity" />
-                  </div>
-                   <!-- end input -->
-                   <div class="input-style-1">
-                    <label>Total Capacity</label>
-                    <input type="text" placeholder="Total Capacity" id ="TotalCapacity"/>
-                  </div>
-                  <!-- end input -->
-                  <div class="input-style-1">
-                    <label>VIP Ticket Cost</label>
-                    <input type="text" placeholder="VIP Ticket Cost" id ="VIPTicketCost"/>
-                  </div>
-                  <div class="input-style-1">
-                    <label>Regular Ticket Cost</label>
-                    <input type="text" placeholder="Regular Ticket Cost" id ="RegularTicketCost" />
-                  </div>
-                  <!-- end input -->
-                  <div class="col-12">
-                      <button class="main-btn primary-btn btn-hover" id = "SaveEvent">
-                        Save
-                      </button>
-                    </div>
+                      <div class="input-style-1">
+                        <label>Date</label>
+                        <input type="date" id ="Date"/>
+                      </div>
+                      <!-- end input -->
+                      <div class="input-style-2">
+                        <label>Event Time</label>
+                        <input type="time" id ="EventTime"/>
+                      </div>
+                    
+                      <!-- end input -->
+                      <div class="input-style-1">
+                        <label>VIP Capacity</label>
+                        <input type="text" placeholder="VIP Capacity" id ="VIPCapacity" />
+                      </div>
+                      <div class="input-style-1">
+                        <label>Regular Capacity</label>
+                        <input type="text" placeholder="Regular Capacity" id ="RegularCapacity" />
+                      </div>
+                      <!-- end input -->
+                      <div class="input-style-1">
+                        <label>Total Capacity</label>
+                        <input type="text" placeholder="Total Capacity" id ="TotalCapacity"/>
+                      </div>
+                      <!-- end input -->
+                      <div class="input-style-1">
+                        <label>VIP Ticket Cost</label>
+                        <input type="text" placeholder="VIP Ticket Cost" id ="VIPTicketCost"/>
+                      </div>
+                      <div class="input-style-1">
+                        <label>Regular Ticket Cost</label>
+                        <input type="text" placeholder="Regular Ticket Cost" id ="RegularTicketCost" />
+                      </div>
+                      <!-- end input -->
+                      <div class="col-12">
+                          <button class="main-btn primary-btn btn-hover" id = "SaveEvent">
+                            Save
+                          </button>
+                        </div>
                   </form>
                 </div>
                 <!-- end card -->
