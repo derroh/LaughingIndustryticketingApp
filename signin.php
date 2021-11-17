@@ -3,7 +3,7 @@
 	require('func/config.php');
 
 	if($user->is_logged_in()){
-		header('Location: index.php');
+		header('Location: dashboard.php');
   }
 
  ?>

@@ -66,6 +66,7 @@
                     id="notification"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    onclick="window.open('signin.php')" 
                   >
                     <i class="lni lni-enter"></i>                    
                   </button>
@@ -307,13 +308,14 @@
                     EventId: "<?php echo $_GET['id'];?>",
                     EventName:  $("#EventName").val()
                   },
-                  function(data){
-                    console.log(data);
+                  function(data){                    
 
-                    var dataResult = JSON.parse(data);
+                    // var dataResult = JSON.parse(data);
+
+                    // console.log(dataResult.statusCode);
 
                     bootbox.dialog({
-                      message: dataResult.statusCode,
+                      message: 'We have received your booking. Check your email for instructions',
                       buttons: {
                         "success" : {
                           "label" : "OK",
