@@ -18,7 +18,7 @@
       href="assets/images/favicon.svg"
       type="image/x-icon"
     />
-    <title>PlainAdmin Demo | Bootstrap 5 Admin Template</title>
+    <title>Dashboard | Laugh Industry</title>
 
     <!-- ========== All CSS files linkup ========= -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
