@@ -73,5 +73,66 @@ class User extends Password{
         echo '<p class="error">'.$e->getMessage().'</p>';
     }
   }
+
+  public function CreateUser($Name, $Email, $PhoneNumber,  $Password)
+  {
+	$stmt =  $this->_db->prepare('INSERT INTO users( Name, Email, PhoneNumber, Password) VALUES (:Name, :Email, :PhoneNumber, :Password)                                ');
+
+	$stmt->bindParam(':Name', $Name);
+	$stmt->bindParam(':Email', $Email);
+	$stmt->bindParam(':PhoneNumber', $PhoneNumber);
+	$stmt->bindParam(':Password', $Password);
+	if($stmt->execute())
+	{
+		$message = "The account was successfully created";
+		//header("refresh:5;index.php"); // redirects image view page after 5 seconds.
+	}
+	else
+	{
+		$errMSG = "An error occured while inserting....";
+	}
+  }
+  public function EmailExists($user_email)
+  {
+    try {
+
+			$stmt = $this->_db->prepare('SELECT Password FROM users WHERE Email = :user_email');
+			$stmt->execute(array('user_email' => $user_email));
+      		$row = $stmt->fetch();
+
+			return $stmt->rowCount();
+
+		} catch(PDOException $e) {
+		    echo '<p class="error">'.$e->getMessage().'</p>';
+		}
+  }
+  public function getLastUserID()
+  {
+    try {
+
+			$stmt = $this->_db->prepare('SELECT MAX(Id) FROM users ');
+			$stmt->execute();
+      		$row = $stmt->fetch();
+
+			return $row['MAX(Id)'];
+
+	} catch(PDOException $e) {
+		echo '<p class="error">'.$e->getMessage().'</p>';
+	}
+  }
+  public function GetId($user_email)
+  {
+    try {
+
+			$stmt = $this->_db->prepare('SELECT Id FROM users WHERE Email = :user_email');
+			$stmt->execute(array('user_email' => $user_email));
+      		$row = $stmt->fetch();
+
+	 	 return $row['Id'];
+
+	} catch(PDOException $e) {
+		echo '<p class="error">'.$e->getMessage().'</p>';
+	}
+  }
 }
 ?>

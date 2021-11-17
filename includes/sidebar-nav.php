@@ -1,6 +1,6 @@
 <aside class="sidebar-nav-wrapper">
       <div class="navbar-logo">
-        <a href="index.php">
+        <a href="dashboard.php">
           <img src="assets/images/laughindustry.png" alt="logo" height ="70px" width = "200px" />
         </a>
       </div>
@@ -10,7 +10,7 @@
 <nav class="sidebar-nav">
         <ul>
           <li class="nav-item">
-            <a href="index.php">
+            <a href="dashboard.php">
               <span class="icon">
                 <svg
                   width="22"

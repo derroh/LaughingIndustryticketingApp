@@ -87,7 +87,7 @@
             <div class="row align-items-center">
               <div class="col-md-6">
                 <div class="title mb-30">
-                  <h2>Upcoming Events</h2>
+                  <h2>Upcoming Event</h2>
                 </div>
               </div>
             </div>
@@ -121,6 +121,7 @@
                     <p>VIP Ticket: <?php echo $item['VIPTicketCost'];?></p>
                     <p>Regular Ticket: <?php echo $item['RegularTicketCost'];?></p>
                     <a href="book.php?id=<?php echo $item['Id'];?>" class="read-more" >Book Now!</a>
+                    <input type="hidden" value="<?php echo $item['EventName'];?>" id ="EventName"/>
                     <input type="hidden" value="<?php echo $item['VIPTicketCost'];?>" id ="VIPTicketCost"/>
                     <input type="hidden" value="<?php echo $item['RegularTicketCost'];?>" id ="RegularTicketCost" />
                   </div>
@@ -137,29 +138,32 @@
                     </p>
                     <form id = "eventform">
                       <div class="input-style-1">
+                        <label>Name</label>
+                        <input type="text" placeholder="Your name" id ="Name" />
+                      </div>
+                      <div class="input-style-1">
                         <label>Email</label>
                         <input type="text" placeholder="Your email" id ="Email" />
                       </div>
-                      
                     
                       <!-- end input -->
                       <div class="input-style-1">
                         <label>VIP Tickets</label>
-                        <input type="text" placeholder="VIP Tickets" id ="VIPCapacity" />
+                        <input type="text" placeholder="VIP Tickets" id ="VIPTickets" />
                       </div>
                       <div class="input-style-1">
                         <label>Regular Tickets</label>
-                        <input type="text" placeholder="Regular Tickets" id ="RegularCapacity" />
+                        <input type="text" placeholder="Regular Tickets" id ="RegularTickets" />
                       </div>
                       <!-- end input -->
                       <div class="input-style-1">
                         <label>Total Amount To Pay</label>
-                        <input type="text" placeholder="Total Amount" id ="TotalCapacity" disabled = "true"/>
+                        <input type="text" placeholder="Total Amount" id ="TotalAmount" disabled = "true"/>
                       </div>
                       <!-- end input -->
                       <div class="col-12">
-                          <button class="main-btn primary-btn btn-hover" id = "SaveEvent">
-                            Save
+                          <button class="main-btn primary-btn btn-hover" id = "BookEvent">
+                            Book Now
                           </button>
                         </div>
                   </form>
@@ -225,8 +229,103 @@
     <script src="assets/js/moment.min.js"></script>
     <script src="assets/js/fullcalendar.js"></script>
     <script src="assets/js/jvectormap.min.js"></script>
-    <script src="assets/js/world-merc.js"></script>
+    <!-- <script src="assets/js/world-merc.js"></script> -->
     <script src="assets/js/polyfill.js"></script>
-    <script src="assets/js/main.js"></script>   
+    <script src="assets/js/main.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="assets/js/jbvalidator.min.js"></script>  
+    <script src="assets/js/jquery.alphanum.js"></script>   
+        <script>
+            $(function (){
+             
+              $('#VIPTickets').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+              $('#RegularTickets').numeric({
+                maxPreDecimalPlaces: 10,
+                maxDecimalPlaces: 0
+              });
+
+              $("#VIPTickets").keyup(function () {
+                if ($("#VIPCapacity").val().length == 0) {
+                    $("#TotalAmount").val('0');
+                    return;
+                }
+                else {
+                    if ($("#RegularTickets").val().length == 0) {
+                        return;
+                    } else {
+                        var one = parseFloat($("#RegularTickets").val(), 10);
+                        var two = parseFloat($("#VIPTickets").val(), 10);
+                        var vipCost = parseFloat($("#VIPTicketCost").val(), 10);
+                        var regularCost = parseFloat($("#RegularTicketCost").val(), 10);
+                        var vipTotal = (two * vipCost);
+                        var regularTotal = (one * regularCost);
+                        $("#TotalAmount").val(vipTotal + regularTotal );
+                        
+                    }
+                }
+            });
+            //
+
+            $("#RegularTickets").keyup(function () {
+                if ($("#RegularTickets").val().length == 0) {
+                    $("#TotalCapacity").val('0');
+                    return;
+                }
+                else {
+                    if ($("#VIPTickets").val().length == 0) {
+                        return;
+                    } else {
+                        var one = parseFloat($("#RegularTickets").val(), 10);
+                        var two = parseFloat($("#VIPTickets").val(), 10);
+                        var vipCost = parseFloat($("#VIPTicketCost").val(), 10);
+                        var regularCost = parseFloat($("#RegularTicketCost").val(), 10);
+                        var vipTotal = (two * vipCost);
+                        var regularTotal = (one * regularCost);
+                        $("#TotalAmount").val(vipTotal + regularTotal );
+                    }
+                }
+            });
+            //
+              //when save button is clicked
+              $("#BookEvent").click(function (e) {
+                  e.preventDefault();
+
+                  //send to php file using AJAX
+                  $.post('bookevent.php',
+                  {
+                    RegularTickets: $("#RegularTickets").val(),
+                    VIPTickets: $("#VIPTickets").val(),
+                    Email: $("#Email").val(),
+                    Name: $("#Name").val(),
+                    VIPTicketCost: $("#VIPTicketCost").val(),
+                    RegularTicketCost: $("#RegularTicketCost").val(),
+                    EventId: "<?php echo $_GET['id'];?>",
+                    EventName:  $("#EventName").val()
+                  },
+                  function(data){
+                    console.log(data);
+
+                    var dataResult = JSON.parse(data);
+
+                    bootbox.dialog({
+                      message: dataResult.statusCode,
+                      buttons: {
+                        "success" : {
+                          "label" : "OK",
+                          "className" : "btn-sm btn-primary"
+                        }
+                      }
+                    });                   
+
+                  });
+              });
+               
+            })
+        </script> 
   </body>
 </html>

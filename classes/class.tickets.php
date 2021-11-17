@@ -41,7 +41,25 @@ class Tickets{
     }
   }
 
+  public function CreateTicket($Type, $EventId, $UserId,  $AmountPaid)
+  {
+      $stmt =  $this->_db->prepare('INSERT INTO tickets(Type, EventId, UserId, AmountPaid) VALUES (:Type, :EventId, :UserId, :AmountPaid)');
 
+      $stmt->bindParam(':Type', $Type);
+      $stmt->bindParam(':EventId', $EventId);
+      $stmt->bindParam(':UserId', $UserId);
+      $stmt->bindParam(':AmountPaid', $AmountPaid);
+      if($stmt->execute())
+      {
+        $message = "The ticket was successfully created";
+        //header("refresh:5;index.php"); // redirects image view page after 5 seconds.
+      }
+      else
+      {
+        $errMSG = "An error occured while inserting....";
+      }
+
+    }
 
 }
 
