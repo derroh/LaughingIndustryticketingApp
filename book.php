@@ -154,13 +154,13 @@
                       <!-- end input -->
                       <div class="input-style-1">
                         <label>VIP Tickets</label>
-                        <input type="text" placeholder="VIP Tickets" id ="VIPTickets"required />
+                        <input type="text" placeholder="VIP Tickets" id ="VIPTickets"required max="5"/>
                         <div class="valid-feedback">Looks good!</div>
                         <div class="invalid-feedback">Please specify the number of tickets</div>
                       </div>
                       <div class="input-style-1">
                         <label>Regular Tickets</label>
-                        <input type="text" placeholder="Regular Tickets" id ="RegularTickets" required/>
+                        <input type="text" placeholder="Regular Tickets" id ="RegularTickets" required max="5"/>
                         <div class="valid-feedback">Looks good!</div>
                         <div class="invalid-feedback">Please specify the number of tickets</div>
                       </div>
@@ -251,11 +251,15 @@
              
               $('#VIPTickets').numeric({
                 maxPreDecimalPlaces: 10,
-                maxDecimalPlaces: 0
+                maxDecimalPlaces: 0,
+                max:5,
+                min:0
               });
               $('#RegularTickets').numeric({
                 maxPreDecimalPlaces: 10,
-                maxDecimalPlaces: 0
+                maxDecimalPlaces: 0,
+                max:5,
+                min:0
               });
 
               $("#VIPTickets").keyup(function () {
@@ -267,13 +271,31 @@
                     if ($("#RegularTickets").val().length == 0) {
                         return;
                     } else {
-                        var one = parseFloat($("#RegularTickets").val(), 10);
-                        var two = parseFloat($("#VIPTickets").val(), 10);
+                        var NoOfRegularTickets = parseFloat($("#RegularTickets").val(), 10);
+                        var NoOfVIPTickets = parseFloat($("#VIPTickets").val(), 10);
                         var vipCost = parseFloat($("#VIPTicketCost").val(), 10);
-                        var regularCost = parseFloat($("#RegularTicketCost").val(), 10);
-                        var vipTotal = (two * vipCost);
-                        var regularTotal = (one * regularCost);
-                        $("#TotalAmount").val(vipTotal + regularTotal );
+
+                        if((NoOfRegularTickets + NoOfVIPTickets)>5)
+                        {
+                            //alert user & reset selection
+                            bootbox.dialog({
+                            message: 'You cannot book more than 5 tickets. Please select appropriately',
+                            buttons: {
+                              "success" : {
+                                "label" : "OK",
+                                "className" : "btn-sm btn-primary"
+                              }
+                            }
+                          }); 
+                          $("#RegularTickets").val("0");
+                          $("#VIPTickets").val("0");
+                          return;
+                        }else{
+                          var regularCost = parseFloat($("#RegularTicketCost").val(), 10);
+                          var vipTotal = (NoOfVIPTickets * vipCost);
+                          var regularTotal = (NoOfRegularTickets * regularCost);
+                          $("#TotalAmount").val(vipTotal + regularTotal );
+                        }                        
                         
                     }
                 }
@@ -289,13 +311,31 @@
                     if ($("#VIPTickets").val().length == 0) {
                         return;
                     } else {
-                        var one = parseFloat($("#RegularTickets").val(), 10);
-                        var two = parseFloat($("#VIPTickets").val(), 10);
+                        var NoOfRegularTickets = parseFloat($("#RegularTickets").val(), 10);
+                        var NoOfVIPTickets = parseFloat($("#VIPTickets").val(), 10);
                         var vipCost = parseFloat($("#VIPTicketCost").val(), 10);
-                        var regularCost = parseFloat($("#RegularTicketCost").val(), 10);
-                        var vipTotal = (two * vipCost);
-                        var regularTotal = (one * regularCost);
-                        $("#TotalAmount").val(vipTotal + regularTotal );
+
+                        if((NoOfRegularTickets + NoOfVIPTickets)>5)
+                        {
+                          bootbox.dialog({
+                            message: 'You cannot book more than 5 tickets. Please select appropriately',
+                            buttons: {
+                              "success" : {
+                                "label" : "OK",
+                                "className" : "btn-sm btn-primary"
+                              }
+                            }
+                          });
+                          $("#RegularTickets").val("0");
+                          $("#VIPTickets").val("0");
+                          return;
+                        }else{
+                          
+                          var regularCost = parseFloat($("#RegularTicketCost").val(), 10);
+                          var vipTotal = (NoOfVIPTickets * vipCost);
+                          var regularTotal = (NoOfRegularTickets * regularCost);
+                          $("#TotalAmount").val(vipTotal + regularTotal );
+                        }
                     }
                 }
             });
