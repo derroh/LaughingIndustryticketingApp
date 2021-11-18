@@ -74,6 +74,21 @@ from
     return $userData;
 
   }
+  public function getEventCapacity($EventId)
+    {
+    
+      try {
+  
+        $stmt = $this->_db->prepare("SELECT TotalCapacity FROM `events` WHERE Id = :Id");
+        $stmt->execute(array('Id' => $EventId));
+        $row = $stmt->fetch();
+  
+       return $row['TotalCapacity'];
+  
+      } catch(PDOException $e) {
+          echo '<p class="error">'.$e->getMessage().'</p>';
+      }
+    }
 
 }
 

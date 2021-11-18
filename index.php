@@ -111,7 +111,15 @@
                     <h5>Ticket Prices</h5>
                     <p>VIP Ticket: <?php echo $item['VIPTicketCost'];?></p>
                     <p>Regular Ticket: <?php echo $item['RegularTicketCost'];?></p>
-                    <a href="book.php?id=<?php echo $item['Id'];?>" class="read-more" >Book Now!</a>
+                    
+                    <h5>Status</h5>
+                    <?php if ($ticket->countEventTicketsSold($item['Id']) < $item['TotalCapacity'] ) :?>
+                      <p>Open</p>
+                    </br>
+                      <a href="book.php?id=<?php echo $item['Id'];?>" class="read-more" >Book Now!</a>
+                      <?php else: ?>
+                        <p>Sold out</p>
+                        <?php endif;?>
                   </div>
                 </div>
               </div>

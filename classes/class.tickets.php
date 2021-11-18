@@ -61,6 +61,22 @@ class Tickets{
 
     }
 
+    public function countEventTicketsSold($EventId)
+    {
+    
+      try {
+  
+        $stmt = $this->_db->prepare("SELECT Count(TicketNumber) as ToTalTicketsSold FROM `tickets` WHERE EventId = :EventId");
+        $stmt->execute(array('EventId' => $EventId));
+        $row = $stmt->fetch();
+  
+       return $row['ToTalTicketsSold'];
+  
+      } catch(PDOException $e) {
+          echo '<p class="error">'.$e->getMessage().'</p>';
+      }
+    }
+
 }
 
 ?>

@@ -30,39 +30,45 @@
         $UserId = $user->GetId($Email);
     }
 
+    //are there available tickets? Since a user can reserve upto 5 tickets lets assume if the number of remaining tickets is more than 5, their booking is a success, else, ask them to do a fresh reservation via email
 
-    // VIP
+    $RemainingSlots =(($event->getEventCapacity($EventId)) - ($ticket->countEventTicketsSold($EventId)));
 
-    if($VIPTickets)
+    if ($RemainingSlots > 5 )
     {
-        for ($x = 1; $x <= $VIPTickets; $x++) 
-        {
-            $ticket ->CreateTicket('VIP', $EventId, $UserId,  $VIPTicketCost);
-        }
+      // VIP
 
-        $EmailSubject = "You have successfully booked " . $VIPTickets . " VIP Tickets for  " .$EventName . "." ;
+      if($VIPTickets)
+      {
+          for ($x = 1; $x <= $VIPTickets; $x++) 
+          {
+              $ticket ->CreateTicket('VIP', $EventId, $UserId,  $VIPTicketCost);
+          }
+
+          $EmailSubject = "You have successfully booked " . $VIPTickets . " VIP Tickets for  " .$EventName . "." ;
+      }
+
+      // Regular
+      if($RegularTickets > 0)
+      {
+          for ($x = 1; $x <= $RegularTickets; $x++) 
+          {
+              $ticket ->CreateTicket('Regular', $EventId, $UserId,  $RegularTicketCost);
+          }
+
+          $EmailSubject = "You have successfully booked " . $RegularTickets . " Regular Tickets for  " .$EventName . "." ;
+      }  
+
+      if($RegularTickets > 0 && $VIPTickets > 0)
+      {
+          $EmailSubject = "You have successfully booked " . $VIPTickets . " VIP Tickets and  " .$RegularTickets . " Regular Tickets for " .$EventName . "." ;
+      }
+
+    }else{
+      $EmailSubject = "We have received your reservation. However you can only reserve the remaining ".$RemainingSlots." slots. Please retry" ;
     }
-
-    // Regular
     
-    if($RegularTickets > 0)
-    {
-        for ($x = 1; $x <= $RegularTickets; $x++) 
-        {
-            $ticket ->CreateTicket('Regular', $EventId, $UserId,  $RegularTicketCost);
-        }
-
-        $EmailSubject = "You have successfully booked " . $RegularTickets . " Regular Tickets for  " .$EventName . "." ;
-    }  
-
-    if($RegularTickets > 0 && $VIPTickets > 0)
-    {
-        $EmailSubject = "You have successfully booked " . $VIPTickets . " VIP Tickets and  " .$RegularTickets . " Regular Tickets for " .$EventName . "." ;
-    }
-
-
-
-    $message ='<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+$message ='<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
 $message .= '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"></html>';
 $message .= '<head>';
   $message .= '<!--[if gte mso 9]>';
@@ -544,13 +550,11 @@ $message .= '<head>';
 
         $mail->send();
 
-       
+        echo json_encode(array("statusCode"=>$EmailSubject));
 
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-
-    echo json_encode(array("statusCode"=>$EmailSubject));
 
 
   ?>

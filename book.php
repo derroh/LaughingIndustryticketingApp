@@ -295,7 +295,7 @@
                           var vipTotal = (NoOfVIPTickets * vipCost);
                           var regularTotal = (NoOfRegularTickets * regularCost);
                           $("#TotalAmount").val(vipTotal + regularTotal );
-                        }                        
+                        }                       
                         
                     }
                 }
@@ -368,10 +368,10 @@
 
                     // var dataResult = JSON.parse(data);
 
-                    // console.log(dataResult.statusCode);
+                     console.log(data);
 
                     bootbox.dialog({
-                      message: 'We have received your booking. Check your email for instructions',
+                      message: 'We have received your booking. Check your email for further instructions',
                       buttons: {
                         "success" : {
                           "label" : "OK",
@@ -383,7 +383,6 @@
                   });
 
                 }
-
                   
               });
                
