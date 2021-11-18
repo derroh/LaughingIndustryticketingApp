@@ -137,24 +137,32 @@
                     <p>
                       With supporting text below as a natural 
                     </p>
-                    <form id = "eventform">
+                    <form id = "Bookeventform" novalidate>
                       <div class="input-style-1">
                         <label>Name</label>
-                        <input type="text" placeholder="Your name" id ="Name" />
+                        <input type="text" placeholder="Your name" id ="Name" required />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide your name</div>
                       </div>
                       <div class="input-style-1">
                         <label>Email</label>
-                        <input type="text" placeholder="Your email" id ="Email" />
+                        <input type="text" placeholder="Your email" id ="Email" required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide your email</div>
                       </div>
                     
                       <!-- end input -->
                       <div class="input-style-1">
                         <label>VIP Tickets</label>
-                        <input type="text" placeholder="VIP Tickets" id ="VIPTickets" />
+                        <input type="text" placeholder="VIP Tickets" id ="VIPTickets"required />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please specify the number of tickets</div>
                       </div>
                       <div class="input-style-1">
                         <label>Regular Tickets</label>
-                        <input type="text" placeholder="Regular Tickets" id ="RegularTickets" />
+                        <input type="text" placeholder="Regular Tickets" id ="RegularTickets" required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please specify the number of tickets</div>
                       </div>
                       <!-- end input -->
                       <div class="input-style-1">
@@ -296,7 +304,15 @@
               $("#BookEvent").click(function (e) {
                   e.preventDefault();
 
-                  //send to php file using AJAX
+
+                var form = $("#Bookeventform")
+                if (form[0].checkValidity() === false) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    form.addClass('was-validated');
+                } else if (form[0].checkValidity() === true) 
+                {
+
                   $.post('bookevent.php',
                   {
                     RegularTickets: $("#RegularTickets").val(),
@@ -325,6 +341,10 @@
                     });                   
 
                   });
+
+                }
+
+                  
               });
                
             })

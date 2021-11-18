@@ -10,6 +10,7 @@
     $RegularCapacity = $_POST['RegularCapacity'];
     $VIPTicketCost = $_POST['VIPTicketCost'];
     $RegularTicketCost = $_POST['RegularTicketCost'];
+    $EventDescription= $_POST['EventDescription'];
 
    // $myDate = date('Y/m/d');
     $Replaceddate = str_replace('/', '-', $Date);
@@ -17,10 +18,11 @@
     $Createdby = 1;
     $message = "";
 
-    $stmt = $db->prepare("INSERT INTO events(EventName, Location, Date, EventTime, TotalCapacity, VIPCapacity, RegularCapacity, VIPTicketCost, RegularTicketCost, CreatedBy) VALUES
- (:EventName,:Location,:Date,:EventTime,:TotalCapacity,:VIPCapacity,:RegularCapacity,:VIPTicketCost,:RegularTicketCost,:CreatedBy)") ;
+    $stmt = $db->prepare("INSERT INTO events(EventName, EventDescription, Location, Date, EventTime, TotalCapacity, VIPCapacity, RegularCapacity, VIPTicketCost, RegularTicketCost, CreatedBy) VALUES
+ (:EventName, :EventDescription, :Location,:Date,:EventTime,:TotalCapacity,:VIPCapacity,:RegularCapacity,:VIPTicketCost,:RegularTicketCost,:CreatedBy)") ;
  
     $stmt->bindParam(':EventName', $EventName);
+    $stmt->bindParam(':EventDescription', $EventDescription);
     $stmt->bindParam(':Location', $Location);
     $stmt->bindParam(':Date', $FormatedDate);
     $stmt->bindParam(':EventTime', $EventTime);

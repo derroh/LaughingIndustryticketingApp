@@ -83,52 +83,72 @@
                 <!-- input style start -->
                 <div class="card-style mb-30">
                   <h6 class="mb-25">Input Fields</h6>
-                  <form id = "eventform">
+                  <form id = "eventform" novalidate>
                       <div class="input-style-1">
                         <label>Event Name</label>
-                        <input type="text" placeholder="Event Name" id ="EventName" />
+                        <input type="text" placeholder="Event Name" id ="EventName" required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event name must be specified</div>
                       </div>
                       <div class="input-style-1">
                         <label>Event Description</label>
-                        <textarea placeholder="Event Description" rows="5" id = "EventDescription"> </textarea> 
+                        <textarea placeholder="Event Description" rows="5" id = "EventDescription" required = "true"> </textarea> 
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event description must be specified</div>
                       </div>
                       <div class="input-style-1">
                         <label>Location</label>
-                        <input type="text" placeholder="Location" id ="Location" />
+                        <input type="text" placeholder="Location" id ="Location"  required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event location must be specified</div>
                       </div>
 
                       <div class="input-style-1">
                         <label>Date</label>
-                        <input type="date" id ="Date"/>
+                        <input type="date" id ="Date" required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event date must be specified</div>
                       </div>
                       <!-- end input -->
                       <div class="input-style-2">
                         <label>Event Time</label>
-                        <input type="time" id ="EventTime"/>
+                        <input type="time" id ="EventTime" required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event time must be specified</div>
                       </div>
                     
                       <!-- end input -->
                       <div class="input-style-1">
                         <label>VIP Capacity</label>
-                        <input type="text" placeholder="VIP Capacity" id ="VIPCapacity" />
+                        <input type="text" placeholder="VIP Capacity" id ="VIPCapacity" required />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event VIP capacity must be specified</div>
                       </div>
                       <div class="input-style-1">
                         <label>Regular Capacity</label>
-                        <input type="text" placeholder="Regular Capacity" id ="RegularCapacity" />
+                        <input type="text" placeholder="Regular Capacity" id ="RegularCapacity" required />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event Regular Capacity must be specified</div>
                       </div>
                       <!-- end input -->
                       <div class="input-style-1">
                         <label>Total Capacity</label>
-                        <input type="text" placeholder="Total Capacity" id ="TotalCapacity"/>
+                        <input type="text" placeholder="Total Capacity" id ="TotalCapacity" required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The event total capacity must be specified</div>
                       </div>
                       <!-- end input -->
                       <div class="input-style-1">
                         <label>VIP Ticket Cost</label>
-                        <input type="text" placeholder="VIP Ticket Cost" id ="VIPTicketCost"/>
+                        <input type="text" placeholder="VIP Ticket Cost" id ="VIPTicketCost" required/>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The VIP ticket cost must be specified</div>
                       </div>
                       <div class="input-style-1">
                         <label>Regular Ticket Cost</label>
-                        <input type="text" placeholder="Regular Ticket Cost" id ="RegularTicketCost" />
+                        <input type="text" placeholder="Regular Ticket Cost" id ="RegularTicketCost"required />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">The Regular ticket cost  must be specified</div>
                       </div>
                       <!-- end input -->
                       <div class="col-12">
@@ -236,8 +256,17 @@
               $("#SaveEvent").click(function (e) {
                   e.preventDefault();
 
-                  //send to php file using AJAX
-                  $.post('saveevent.php',
+
+                  var form = $("#eventform")
+
+                if (form[0].checkValidity() === false) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    form.addClass('was-validated');
+                } else if (form[0].checkValidity() === true) {
+
+                   //send to php file using AJAX
+                   $.post('saveevent.php',
                   {
                     EventName: $("#EventName").val(),
                     EventDescription: $("#EventDescription").val(),
@@ -251,20 +280,22 @@
                     RegularTicketCost: $("#RegularTicketCost").val()
                   },
                   function(data){
+                    console.log(data);
 
                     var dataResult = JSON.parse(data);
 
                     if(dataResult.statusCode==200)
                     {
                       bootbox.dialog({
-                      message: 'Saved successfully',
+                      message: 'Your event has been saved successfully',
                       buttons: {
                         "success" : {
                           "label" : "OK",
                           "className" : "btn-sm btn-primary"
                         }
-                      }
+                      }                      
                     });	
+                    window.location.href = "events.php";
 
                     }
                     else if(dataResult.statusCode==201)
@@ -281,6 +312,9 @@
                     }                    
 
                   });
+                }
+
+                 
               });
                
             })
